@@ -1,21 +1,21 @@
-# Implementation of a classical neural network classifier supporting multi-precision training
+# Implementation of a convolutional nerural network supporting multi-precision training
 # Implementation currently supports training in either double, single, or half precision
 # Implementation is based off of TensorFlow's very own example:
-# https://www.tensorflow.org/tutorials/keras/classification
+# https://www.tensorflow.org/tutorials/images/cnn
 
 import time
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import layers, models
-from tensorflow.keras.datasets import fashion_mnist
+from tensorflow.keras import datasets, layers, models
 
 # Define number of training runs to compute the average training time over
 NUM_TRAINING_RUNS = 5
-# Values are specific to the Fashion MNIST dataset
-INPUT_DIM = 28
+# Values are specific to the CIFAR10 dataset
+INPUT_DIM = 32
+INPUT_CHANNELS = 3
 NUM_CLASSES = 10
 
-def build_and_train(X_train, y_train, precision):
+def build_and_train(X_train, y_train, precision='single'):
     if precision == 'double':
         dtype = tf.float64
     elif precision == 'single':
@@ -24,13 +24,18 @@ def build_and_train(X_train, y_train, precision):
         dtype = tf.float16
     
     model = models.Sequential([
-        layers.Flatten(input_shape=(INPUT_DIM, INPUT_DIM)),
-        layers.Dense(128, activation='relu', dtype=dtype),
-        layers.Dense(NUM_CLASSES, dtype=dtype)
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(INPUT_DIM, INPUT_DIM, INPUT_CHANNELS), dtype=dtype),
+        layers.MaxPooling2D((2, 2)),
+        layers.Conv2D(64, (3, 3), activation='relu', dtype=dtype),
+        layers.MaxPooling2D((2, 2)),
+        layers.Flatten(dtype=dtype),
+        layers.Dense(64, activation='relu', dtype=dtype),
+        layers.Dense(NUM_CLASSES, activation='softmax', dtype=dtype)
     ])
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
+    
     start_time = time.time()
     model.fit(X_train, y_train, epochs=5)
     end_time = time.time()
@@ -40,11 +45,11 @@ def build_and_train(X_train, y_train, precision):
 
 
 # Load dataset and split into train and test sets
-(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
+(X_train, y_train), (X_test, y_test) = datasets.cifar10.load_data()
 
 # Scale values before feeding into neural net
 X_train = X_train / 255.0
-X_test  = X_test / 255.0
+X_test = X_test / 255.0
 
 # Test run to make sure that everything is working properly before starting actual measurements
 _ = build_and_train(X_train, y_train, precision='single')

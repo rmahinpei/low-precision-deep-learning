@@ -1,4 +1,4 @@
-# Implementation of a neural net classifier supporting multi-precision training
+# Implementation of an SVM classifier supporting multi-precision training
 # Implementation currently supports training in either double, single, or half precision
 # Implementation is based off of scikit-learn's very own example: 
 # https://scikit-learn.org/stable/auto_examples/svm/plot_iris_svc.html
