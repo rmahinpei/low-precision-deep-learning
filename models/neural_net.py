@@ -1,10 +1,12 @@
-# Implementation of a classical neural network classifier supporting multi-precision training
-# Implementation currently supports training in either double, single, or half precision
-# Implementation is based off of TensorFlow's very own example:
-# https://www.tensorflow.org/tutorials/keras/classification
+# Implementation of a classic neural network classifier supporting **multi-precision** training
+    # Implementation currently supports training in either double, single, or half precision
+    # This implies that both the computations and parameter storage are done in the specified precision
+# Implementation of a classic neural network classifier supporting **mixed-precision** training
+    # Implementation currently supports half precision computations with single precision parameter storage
+# Implementations are based off of TensorFlow's very own example:
+    # https://www.tensorflow.org/tutorials/keras/classification
 
 import time
-import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.datasets import fashion_mnist
