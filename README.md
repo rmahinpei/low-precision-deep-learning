@@ -2,3 +2,6 @@
 *Investigating the Impact of Training Precision on Training Time and Classification Accuracy*
 
 The adoption of lower precision arithmetic, such as single, half, and quarter precision, has gained traction in both the scientific computing and machine learning communities given its potential for speed enhancement and reduced resource consumption. While specialized low precision formats and techniques have been explored in machine learning, there remains a gap in evaluating the performance gains of general low precision schemes without relying on specialized formats and techniques. As such, this paper investigates the impact of four general low precision schemes on the training time and classification accuracy of four different deep learning models from the domains of image and text classification. After implementing multi-precision and mixed-precision schemes of the selected models, we examine the performance trade-offs between speed and accuracy through our measurements on Google Colab’s Tesla T4 GPU. Our findings provide insights into the suitability of general low precision training for deep learning tasks and offer suggestions and benchmarks for machine learning practitioners.
+
+-----
+*This report was submitted as a research project for the Jan-Apr 2023 offering of the University of British Columbia's CPSC 440/540 Advanced Machine Learning course.* 
